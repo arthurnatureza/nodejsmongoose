@@ -31,6 +31,6 @@ router.post('/add' , usersController.addUser);
 
 router.delete('/delete/:id', usersController.deleteUser);
 
-//router.update('/update', usersController.update);
+router.put('/update/:id', usersController.updateUser);
 
 module.exports = router;

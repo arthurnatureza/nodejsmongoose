@@ -103,8 +103,53 @@ exports.addUser = async (req, res) => {
     }
 };
 
+exports.updateUser = async (req, res) => {
+    let userId = parseInt(req.params.id);
+    let option = req.body;
+
+    const querySet = {$set:{}}
+    let queryAux = {};
+
+    for (let i in option) {
+        queryAux[i] = option[i]
+    }
+    querySet.$set = queryAux;    
+
+    await User.findOneAndUpdate(
+        {$and: [
+            {userId: userId},
+            {active: true}
+        ]},
+        querySet,
+        (err, model) => {
+            if(err) {
+                res.json({
+                    status: 500,
+                    error: true,
+                    message: "Erro no servidor",
+                    err,
+                });
+            } else {
+                if(!model) {
+                    res.json({
+                        status: 400,
+                        error: true,
+                        message: "Usuário não encontrado",
+                    });
+                } else {
+                    res.json({
+                        status: 200,
+                        message: "Usuário atualizado com sucesso.",
+                        model: model,
+                    });
+                }
+            }
+        }
+    ).clone().catch((err) => {console.log(err)});
+}
+
 exports.deleteUser = async (req, res) => {
-    let userId = parseInt(req.params.id)
+    let userId = parseInt(req.params.id);
     await User.findOneAndUpdate(
         {$and: [
             {userId: userId},
@@ -117,14 +162,23 @@ exports.deleteUser = async (req, res) => {
                 res.json({
                     status: 500,
                     error: true,
-                    message: "Usuário não encontrado", err,
+                    message: "Erro no servidor",
+                    err,
                 });
             } else {
-                res.json({
-                    status: 200,
-                    message: "Usuário excluído com sucesso.",
-                });
-            }
+                if(!model) {
+                    res.json({
+                        status: 400,
+                        error: true,
+                        message: "Usuário não encontrado",
+                    });
+                } else {
+                    res.json({
+                        status: 200,
+                        message: "Usuário excluído com sucesso.",
+                    });
+                }
+            } 
         }
     ).clone().catch((err) => {console.log(err)});
 }

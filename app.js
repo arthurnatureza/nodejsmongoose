@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const app = express();
 
 dotenv.config();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const index = require('./routes/index');
 const dbUrl = process.env.DATABASE_URL;
 
@@ -26,5 +26,5 @@ app.use(express.urlencoded({ extended: false }));
 app.use(index);
 
 app.listen(port, (req, res) => {
-    console.log('Rodando na porta: ', port)
+    console.log('Rodando na porta:', port)
 });
