@@ -182,3 +182,26 @@ exports.deleteUser = async (req, res) => {
         }
     ).clone().catch((err) => {console.log(err)});
 }
+
+exports.userById = async (req, res) => {
+    let userId = parseInt(req.params.id);
+    try {
+        let user = await User.findOne(
+            {$and: [
+                {userId: userId}
+            ]}
+        );
+        return res.json({
+            status: 200,
+            active: user.active,
+            user: user,
+        });
+    } catch (err) {
+        console.error("Erro: ", err);
+        return res.json({
+            status: 500,
+            error: true,
+            message: "Erro ao buscar o usuário",
+        });
+    }
+}

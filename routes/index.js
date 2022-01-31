@@ -19,7 +19,7 @@ router.get('/activeUsers', usersController.activeUsers)
 
 router.get('/allUsers', usersController.allUsers)
 
-//router.get('/userById/:id', usersController.userById)
+router.get('/userbyid/:id', usersController.userById)
 
 //router.get('/userByEmail/:email', usersController.userByEmail)
 
