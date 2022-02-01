@@ -1,2 +1,2 @@
 # nodejsmongoose
-API RESTful Node.js Mongoose Express JWT
+API RESTful Node.js Mongoose Express
